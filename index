@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mere Phool ke Phool ka Bagicha!!</title>
+
+<!-- Typography: a romantic serif for display/poetry, a light humanist sans for UI chrome -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ================================================================
+   AN INFINITE GARDEN FOR HER — stylesheet
+   Palette:
+     --cream       #FBF3ED  (day sky top)
+     --blush       #F7CBD3  (petals, warm pink)
+     --rose        #E7A8B6  (deeper petal / accents)
+     --lavender    #C9AEE0  (petals, ui glass tint)
+     --sage        #A9D4C4  (leaves / stems)
+     --gold        #F3D9A4  (flower centers, fireflies, sun)
+     --night-1     #1B1530  (night sky top)
+     --night-2     #3A2A52  (night sky bottom)
+     --ink         #3E3450  (deep plum text)
+   ================================================================ */
+
+:root{
+  --cream:#FBF3ED;
+  --cream-2:#F3E2DA;
+  --blush:#F7CBD3;
+  --rose:#E7A8B6;
+  --lavender:#C9AEE0;
+  --sage:#A9D4C4;
+  --gold:#F3D9A4;
+  --night-1:#1B1530;
+  --night-2:#3A2A52;
+  --ink:#3E3450;
+  --ink-soft:#6B5C7C;
+  --glass-bg:rgba(255,255,255,0.35);
+  --glass-border:rgba(255,255,255,0.55);
+  --shadow-soft:0 8px 30px rgba(90,60,90,0.15);
+  --font-display:'Cormorant Garamond', serif;
+  --font-ui:'Jost', sans-serif;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{
+  margin:0; padding:0;
+  width:100%; height:100%;
+  overflow:hidden;
+  background:var(--cream);
+  font-family:var(--font-ui);
+  color:var(--ink);
+  -webkit-tap-highlight-color:transparent;
+}
+
+.hidden{ display:none !important; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+}
+
+/* ---------------------------------------------------------------
+   1. LOADING SCREEN
+--------------------------------------------------------------- */
+#loading-screen{
+  position:fixed; inset:0; z-index:100;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:28px;
+  background:radial-gradient(ellipse at 50% 40%, var(--cream) 0%, var(--cream-2) 70%, #ecd9d0 100%);
+}
+
+.loader-flower{
+  position:relative; width:70px; height:70px;
+  animation:loader-spin 3.2s linear infinite;
+}
+.loader-flower span{
+  position:absolute; left:50%; top:50%;
+  width:26px; height:38px;
+  background:linear-gradient(180deg, var(--blush), var(--rose));
+  border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform-origin:50% 100%;
+  opacity:0.9;
+}
+.loader-flower span:nth-child(1){ transform:translate(-50%,-100%) rotate(0deg); }
+.loader-flower span:nth-child(2){ transform:translate(-50%,-100%) rotate(72deg); }
+.loader-flower span:nth-child(3){ transform:translate(-50%,-100%) rotate(144deg); }
+.loader-flower span:nth-child(4){ transform:translate(-50%,-100%) rotate(216deg); }
+.loader-flower span:nth-child(5){ transform:translate(-50%,-100%) rotate(288deg); }
+.loader-center{
+  position:absolute; left:50%; top:50%; width:16px; height:16px;
+  background:var(--gold); border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 16px 4px rgba(243,217,164,0.8);
+}
+@keyframes loader-spin{ to{ transform:rotate(360deg); } }
+
+.loader-text{
+  font-family:var(--font-display);
+  font-style:italic; font-size:1.15rem;
+  color:var(--ink-soft);
+  letter-spacing:0.03em;
+}
+
+/* ---------------------------------------------------------------
+   2. LOCK SCREEN
+--------------------------------------------------------------- */
+#lock-screen{
+  position:fixed; inset:0; z-index:90;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg, var(--cream) 0%, var(--blush) 55%, var(--lavender) 100%);
+  transition:opacity 1.1s ease, filter 1.1s ease;
+}
+#lock-screen.leaving{ opacity:0; filter:blur(14px); pointer-events:none; }
+
+.lock-ambient{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(255,255,255,0.35), transparent 50%);
+  animation:ambient-drift 12s ease-in-out infinite alternate;
+}
+@keyframes ambient-drift{
+  from{ transform:translate(0,0) scale(1); }
+  to{ transform:translate(2%, -2%) scale(1.05); }
+}
+
+.glass-card{
+  position:relative;
+  width:min(420px, 88vw);
+  padding:44px 36px 34px;
+  text-align:center;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:28px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--shadow-soft);
+  animation:card-rise 1s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes card-rise{
+  from{ opacity:0; transform:translateY(24px) scale(0.97); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+.lock-eyebrow{
+  margin:0 0 6px; font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.lock-title{
+  margin:0 0 10px; font-family:var(--font-display); font-weight:600;
+  font-size:2rem; line-height:1.2; color:var(--ink);
+}
+.lock-sub{
+  margin:0 0 26px; font-size:0.92rem; color:var(--ink-soft); font-style:italic;
+  font-family:var(--font-display);
+}
+
+#lock-form{ display:flex; flex-direction:column; gap:14px; }
+
+#password-input{
+  width:100%; padding:14px 18px; font-size:1.2rem; text-align:center;
+  letter-spacing:0.4em;
+  border:1px solid rgba(255,255,255,0.7);
+  border-radius:16px;
+  background:rgba(255,255,255,0.55);
+  color:var(--ink);
+  outline:none;
+  transition:box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+}
+#password-input:focus{
+  border-color:var(--rose);
+  box-shadow:0 0 0 4px rgba(231,168,182,0.3);
+}
+#password-input.shake{ animation:shake 0.5s ease; }
+@keyframes shake{
+  10%,90%{ transform:translateX(-3px); }
+  20%,80%{ transform:translateX(6px); }
+  30%,50%,70%{ transform:translateX(-9px); }
+  40%,60%{ transform:translateX(9px); }
+}
+
+#unlock-btn{
+  border:none; cursor:pointer; padding:14px 20px; border-radius:16px;
+  font-family:var(--font-ui); font-size:0.95rem; letter-spacing:0.05em;
+  color:#fff;
+  background:linear-gradient(135deg, var(--rose), var(--lavender));
+  box-shadow:0 10px 24px rgba(199,140,170,0.35);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+#unlock-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(199,140,170,0.45); }
+#unlock-btn:active{ transform:translateY(0); }
+
+#lock-error{
+  margin:16px 0 0; height:16px; font-size:0.82rem; color:#B4577A;
+  opacity:0; transform:translateY(-4px);
+  transition:opacity .4s ease, transform .4s ease;
+  font-style:italic; font-family:var(--font-display);
+}
+#lock-error.show{ opacity:1; transform:translateY(0); }
+
+/* ---------------------------------------------------------------
+   3. GARDEN APP SHELL
+--------------------------------------------------------------- */
+#garden-app{
+  position:fixed; inset:0; z-index:10;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity 1.4s ease 0.2s;
+}
+#garden-app.visible{ opacity:1; }
+
+.layer{ position:absolute; inset:0; pointer-events:none; z-index:5; }
+#flower-field{ pointer-events:auto; z-index:6; cursor: crosshair; touch-action:none; }
+
+/* sky, day <-> night crossfade */
+#sky{
+  position:absolute; inset:0; z-index:0;
+  background:linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 55%, var(--blush) 100%);
+  transition:background 2.4s ease;
+}
+body.night #sky{
+  background:linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 65%, #4a3560 100%);
+}
+
+#stars{
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 65%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 70% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 85% 75%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 92% 25%, #fff, transparent),
+    radial-gradient(1px 1px at 15% 85%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 45% 90%, #fff, transparent);
+  opacity:0; transition:opacity 2s ease;
+}
+body.night #stars{ opacity:0.8; animation:twinkle 4s ease-in-out infinite alternate; }
+@keyframes twinkle{ from{ opacity:0.55; } to{ opacity:0.95; } }
+
+#sun-moon{
+  position:absolute; top:8%; right:12%;
+  width:64px; height:64px; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff9e8, var(--gold));
+  box-shadow:0 0 60px 18px rgba(243,217,164,0.55);
+  transition:background 1.6s ease, box-shadow 1.6s ease, transform 1.6s ease;
+}
+body.night #sun-moon{
+  background:radial-gradient(circle at 35% 35%, #f4f2ff, #cfc7e6);
+  box-shadow:0 0 40px 12px rgba(180,170,220,0.45);
+  transform:translate(-6vw, 2vh) scale(0.85);
+}
+
+#horizon{
+  position:absolute; left:0; right:0; bottom:0; height:22vh; z-index:1;
+  background:linear-gradient(180deg, rgba(169,212,196,0) 0%, rgba(169,212,196,0.55) 100%);
+  border-radius:100% 100% 0 0 / 40px 40px 0 0;
+  transition:background 2s ease;
+}
+body.night #horizon{
+  background:linear-gradient(180deg, rgba(58,42,82,0) 0%, rgba(33,22,54,0.75) 100%);
+}
+
+/* ---------------------------------------------------------------
+   4. HEADER + QUOTES
+--------------------------------------------------------------- */
+#garden-header{
+  position:absolute; top:26px; left:50%; transform:translateX(-50%);
+  z-index:20; text-align:center; pointer-events:none;
+  width:90%;
+}
+#garden-title{
+  margin:0; font-family:var(--font-display); font-weight:600;
+  font-size:clamp(1.5rem, 4vw, 2.6rem);
+  color:var(--ink);
+  text-shadow:0 2px 18px rgba(255,255,255,0.6);
+  pointer-events:auto; cursor:default;
+  transition:color 1.6s ease, text-shadow 1.6s ease;
+}
+body.night #garden-title{ color:#F3E9FF; text-shadow:0 2px 22px rgba(120,90,160,0.6); }
+#garden-sub{
+  margin:6px 0 0; font-size:0.85rem; letter-spacing:0.08em; font-style:italic;
+  color:var(--ink-soft); transition:color 1.6s ease;
+}
+body.night #garden-sub{ color:#C9BEDD; }
+
+#quote-display{
+  position:absolute; left:50%; bottom:14%; transform:translateX(-50%);
+  z-index:20; max-width:min(560px, 86vw); text-align:center;
+  font-family:var(--font-display); font-style:italic;
+  font-size:clamp(1.1rem, 2.4vw, 1.5rem);
+  color:var(--ink);
+  opacity:0; transition:opacity 1.6s ease, transform 1.6s ease;
+  pointer-events:none;
+  text-shadow:0 2px 16px rgba(255,255,255,0.7);
+}
+#quote-display.show{ opacity:0.92; transform:translateX(-50%) translateY(-6px); }
+body.night #quote-display{ color:#F3E9FF; text-shadow:0 2px 18px rgba(60,40,90,0.7); }
+
+/* ---------------------------------------------------------------
+   5. UI DOCK (glassmorphism)
+--------------------------------------------------------------- */
+#ui-dock{
+  position:absolute; top:24px; right:24px; z-index:30;
+  display:flex; gap:10px;
+}
+.glass-btn{
+  display:flex; align-items:center; gap:6px;
+  padding:10px 14px; border-radius:16px;
+  border:1px solid var(--glass-border);
+  background:var(--glass-bg);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 18px rgba(90,60,90,0.12);
+  font-family:var(--font-ui); font-size:0.95rem; color:var(--ink);
+  cursor:pointer; transition:transform .2s ease, background .3s ease;
+}
+.glass-btn:hover{ transform:translateY(-2px); }
+.glass-btn:active{ transform:translateY(0) scale(0.97); }
+body.night .glass-btn{ color:#F3E9FF; background:rgba(60,45,90,0.35); border-color:rgba(255,255,255,0.2); }
+
+#garden-hint{
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  z-index:20; margin:0; font-size:0.75rem; letter-spacing:0.06em;
+  color:var(--ink-soft); opacity:0.75; pointer-events:none;
+  transition:color 1.6s ease;
+}
+body.night #garden-hint{ color:#C9BEDD; }
+
+/* ---------------------------------------------------------------
+   6. FLOWERS — real sunflowers, roses, tulips & lilies (inline SVG),
+      anchored at the ground point where you touch/click, growing
+      upward like a real stem. Sway + mouse-tilt are driven entirely
+      by JS (see mouseInfluenceLoop) so nothing fights the grow
+      animation below.
+--------------------------------------------------------------- */
+.flower{
+  position:absolute;
+  width:var(--fw, 90px); height:var(--fh, 190px);
+  transform-origin:50% 100%;
+  transform:translate(-50%,-100%) scaleY(0);
+  opacity:0;
+  will-change:transform;
+  filter:drop-shadow(0 6px 10px rgba(60,40,60,0.18));
+  animation:grow-up 1.35s cubic-bezier(.2,.85,.25,1.1) forwards;
+}
+@keyframes grow-up{
+  0%{ transform:translate(-50%,-100%) scaleY(0.05); opacity:0; }
+  55%{ opacity:1; }
+  100%{ transform:translate(-50%,-100%) scaleY(1); opacity:1; }
+}
+.flower svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+/* ---------------------------------------------------------------
+   7. PETALS, FIREFLIES, BUTTERFLIES, HEARTS
+--------------------------------------------------------------- */
+.falling-petal{
+  position:absolute; top:-20px;
+  width:10px; height:14px;
+  background:var(--petal-color, var(--blush));
+  border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+  opacity:0.85;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{ transform:translate(var(--drift, 40px), 110vh) rotate(360deg); opacity:0; }
+}
+
+.firefly{
+  position:absolute; width:5px; height:5px; border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 8px 3px rgba(243,217,164,0.9);
+  opacity:0; transition:opacity 1.8s ease;
+  animation:firefly-float 7s ease-in-out infinite;
+}
+body.night .firefly{ opacity:0.9; }
+@keyframes firefly-float{
+  0%,100%{ transform:translate(0,0); }
+  25%{ transform:translate(14px,-18px); }
+  50%{ transform:translate(-10px,-30px); }
+  75%{ transform:translate(-16px,-8px); }
+}
+
+.butterfly{
+  position:absolute; width:22px; height:16px; pointer-events:none;
+}
+.butterfly .wing{
+  position:absolute; top:0; width:11px; height:16px;
+  background:var(--wing-color, var(--lavender));
+  opacity:0.85; border-radius:60% 60% 60% 60% / 60% 60% 40% 40%;
+  animation:flap 0.35s ease-in-out infinite alternate;
+}
+.butterfly .wing.left{ left:0; transform-origin:right center; }
+.butterfly .wing.right{ right:0; transform-origin:left center; }
+@keyframes flap{
+  from{ transform:scaleX(1) rotateY(0deg); }
+  to{ transform:scaleX(0.55) rotateY(20deg); }
+}
+
+.heart{
+  position:absolute; width:16px; height:16px;
+  background:var(--rose);
+  transform:translate(-50%,-50%) rotate(45deg);
+  animation:heart-rise 2.4s ease-out forwards;
+  box-shadow:0 0 10px rgba(231,168,182,0.6);
+}
+.heart::before, .heart::after{
+  content:''; position:absolute; width:16px; height:16px; background:inherit; border-radius:50%;
+}
+.heart::before{ left:-8px; }
+.heart::after{ top:-8px; }
+@keyframes heart-rise{
+  0%{ opacity:0.95; transform:translate(-50%,-50%) rotate(45deg) translateY(0) scale(0.6); }
+  100%{ opacity:0; transform:translate(-50%,-50%) rotate(45deg) translateY(-160px) scale(1.1); }
+}
+
+/* ---------------------------------------------------------------
+   8. EASTER EGG
+--------------------------------------------------------------- */
+#easter-egg{
+  position:fixed; inset:0; z-index:80;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(30,20,45,0.35);
+  backdrop-filter:blur(6px);
+  animation:fade-in 0.6s ease;
+}
+@keyframes fade-in{ from{ opacity:0; } to{ opacity:1; } }
+.egg-card{ max-width:min(420px,86vw); }
+.egg-quote{ font-family:var(--font-display); font-size:1.25rem; font-style:italic; color:var(--ink); margin:0 0 14px; }
+.egg-sub{ font-size:0.8rem; color:var(--ink-soft); margin:0 0 20px; }
+
+/* ---------------------------------------------------------------
+   9. RESPONSIVE
+--------------------------------------------------------------- */
+@media (max-width:640px){
+  .glass-card{ padding:34px 22px 26px; }
+  .lock-title{ font-size:1.6rem; }
+  #ui-dock{ top:16px; right:16px; gap:8px; }
+  .glass-btn{ padding:8px 10px; font-size:0.85rem; }
+  #garden-hint{ font-size:0.68rem; bottom:14px; }
+  #quote-display{ bottom:18%; }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ============ 1. ELEGANT LOADING SCREEN ============ -->
+  <div id="loading-screen" aria-hidden="true">
+    <div class="loader-flower">
+      <span></span><span></span><span></span><span></span><span></span>
+      <div class="loader-center"></div>
+    </div>
+    <p class="loader-text">planting something for her&hellip;</p>
+  </div>
+
+  <!-- ============ 2. LOCK SCREEN ============ -->
+  <main id="lock-screen" class="hidden" aria-hidden="true">
+    <div class="lock-ambient"></div>
+    <section class="glass-card" role="dialog" aria-label="Enter password">
+      <p class="lock-eyebrow">a small, private place</p>
+      <h1 class="lock-title">An Infinite Garden<br>for Her <span aria-hidden="true">🌸</span></h1>
+      <p class="lock-sub">whisper the number that means something to us</p>
+
+      <form id="lock-form" autocomplete="off">
+        <input
+          id="password-input"
+          type="password"
+          inputmode="numeric"
+          maxlength="12"
+          placeholder="• • • •"
+          aria-label="Password"
+          autocomplete="off"
+        >
+        <button type="submit" id="unlock-btn">
+          <span>Enter the Garden</span>
+        </button>
+      </form>
+
+      <p id="lock-error" aria-live="polite">that's not quite the date I remember</p>
+    </section>
+  </main>
+
+  <!-- ============ 3. THE GARDEN EXPERIENCE ============ -->
+  <div id="garden-app" class="hidden" aria-hidden="true">
+
+    <!-- sky / background layer, cross-fades between day + night -->
+    <div id="sky">
+      <div id="stars"></div>
+      <div id="sun-moon"></div>
+    </div>
+
+    <!-- distant hills silhouette for depth -->
+    <div id="horizon"></div>
+
+    <!-- living layers, populated by JS -->
+    <div id="petal-layer"  class="layer" aria-hidden="true"></div>
+    <div id="flower-field" class="layer" aria-hidden="true"></div>
+    <div id="firefly-layer" class="layer" aria-hidden="true"></div>
+    <div id="butterfly-layer" class="layer" aria-hidden="true"></div>
+    <div id="heart-layer" class="layer" aria-hidden="true"></div>
+
+    <!-- top chrome -->
+    <header id="garden-header">
+      <h1 id="garden-title" title="hush... a secret is hiding here">An Infinite Garden for Her <span aria-hidden="true">🌸</span></h1>
+      <p id="garden-sub">every bloom, a small proof of love</p>
+    </header>
+
+    <!-- poetic quotes -->
+    <div id="quote-display" aria-live="polite"></div>
+
+    <!-- UI controls, glassmorphism dock -->
+    <div id="ui-dock">
+      <button id="daynight-toggle" class="glass-btn" aria-label="Toggle day and night">
+        <span class="icon">🌙</span>
+      </button>
+      <button id="mute-toggle" class="glass-btn" aria-label="Toggle ambient music">
+        <span class="icon">🔈</span>
+      </button>
+    </div>
+
+    <p id="garden-hint">touch or click to grow a flower &middot; double-tap to send a heart</p>
+
+    <!-- hidden easter egg overlay -->
+    <div id="easter-egg" class="hidden">
+      <div class="glass-card egg-card">
+        <p class="egg-quote">"तुमसे मिला प्यार ही मेरा सबसे ख़ूबसूरत मौसम है।"</p>
+        <p class="egg-sub">— found only by those who look closely</p>
+        <button id="egg-close" class="glass-btn">close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/* ================================================================
+   AN INFINITE GARDEN FOR HER — script.js
+   Sections: Loading -> Lock -> Garden, flowers, petals, fireflies,
+   butterflies, hearts, quotes, day/night, audio, easter egg.
+   ================================================================ */
+
+(() => {
+  'use strict';
+
+  /* ---------- CONFIG ---------- */
+  const PASSWORD = '1207';
+  const PETAL_COLORS = ['#F7CBD3', '#E7A8B6', '#C9AEE0', '#F3D9A4', '#EAD6F2'];
+
+  /* color variants for each real flower type, so the field feels varied */
+  const ROSE_PALETTES = [
+    { outer:'#F8B4C4', mid:'#E85D75', inner:'#B0203E' },
+    { outer:'#FDE0E9', mid:'#F48FB1', inner:'#C2185B' },
+    { outer:'#FFE3C2', mid:'#F5A65B', inner:'#C9682B' }
+  ];
+  const TULIP_PALETTES = [
+    { light:'#FF8FA3', dark:'#D6294A' },
+    { light:'#FFD98E', dark:'#E8A400' },
+    { light:'#E3B8FF', dark:'#8C4FCB' },
+    { light:'#FFFFFF', dark:'#E7A8B6' }
+  ];
+  const LILY_PALETTES = [
+    { petal:'#FFFFFF', tip:'#F7D8E4', speckle:'#C2185B' },
+    { petal:'#FFE3C2', tip:'#F5A65B', speckle:'#B0532E' },
+    { petal:'#FDE3F2', tip:'#E85D9E', speckle:'#8C2158' }
+  ];
+
+  const HINDI_QUOTES = [
+    'Tere saath har Lamha Jeena hain',
+    'Sirf ek Saal nahi, Har Janam teri ankho mein beetana hain',
+    'Tu phool si pyari si meri bacchiii Myyshaaa',
+    'Teri ankho mein basna hain',
+    'Kabhi hamari ankho se rubaru honga',
+    'toh Pata chalega',
+    'kabhi Aisa bhi ho Rubaru tum betho',
+    'Hamari ankho se zara khudko dekho'
+
+  ];
+  const MAX_FLOWERS = 70;
+  const MAX_FIREFLIES = 22;
+  const MAX_BUTTERFLIES = 5;
+
+  /* ---------- DOM REFS ---------- */
+  const loadingScreen = document.getElementById('loading-screen');
+  const lockScreen = document.getElementById('lock-screen');
+  const lockForm = document.getElementById('lock-form');
+  const passwordInput = document.getElementById('password-input');
+  const lockError = document.getElementById('lock-error');
+  const gardenApp = document.getElementById('garden-app');
+  const flowerField = document.getElementById('flower-field');
+  const petalLayer = document.getElementById('petal-layer');
+  const fireflyLayer = document.getElementById('firefly-layer');
+  const butterflyLayer = document.getElementById('butterfly-layer');
+  const heartLayer = document.getElementById('heart-layer');
+  const quoteDisplay = document.getElementById('quote-display');
+  const daynightToggle = document.getElementById('daynight-toggle');
+  const muteToggle = document.getElementById('mute-toggle');
+  const gardenTitle = document.getElementById('garden-title');
+  const easterEgg = document.getElementById('easter-egg');
+  const eggClose = document.getElementById('egg-close');
+
+  let flowerUid = 0;
+  let flowers = []; // { el, x, y, phase, speed, grown }
+  let isNight = false;
+
+  /* ---------- 1. LOADING -> LOCK SCREEN ---------- */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+      lockScreen.classList.remove('hidden');
+      lockScreen.setAttribute('aria-hidden', 'false');
+      passwordInput.focus();
+    }, 1800);
+  });
+
+  /* ---------- 2. PASSWORD CHECK ---------- */
+  lockForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = passwordInput.value.trim();
+
+    if (value === PASSWORD) {
+      unlockGarden();
+    } else {
+      lockError.classList.add('show');
+      passwordInput.classList.add('shake');
+      setTimeout(() => passwordInput.classList.remove('shake'), 500);
+      passwordInput.value = '';
+      setTimeout(() => lockError.classList.remove('show'), 2400);
+    }
+  });
+
+  function unlockGarden() {
+    lockScreen.classList.add('leaving');
+    setTimeout(() => {
+      lockScreen.classList.add('hidden');
+      lockScreen.setAttribute('aria-hidden', 'true');
+      gardenApp.classList.remove('hidden');
+      gardenApp.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => gardenApp.classList.add('visible'));
+      startGarden();
+    }, 1100);
+  }
+
+  /* ---------- 3. GARDEN BOOTSTRAP ---------- */
+  function startGarden() {
+    // seed an initial flower bed along the lower part of the screen,
+    // like a real garden bed the rest of the field grows from
+    for (let i = 0; i < 20; i++) {
+      spawnFlower(
+        Math.random() * window.innerWidth,
+        window.innerHeight * 0.72 + Math.random() * window.innerHeight * 0.26
+      );
+    }
+
+    setInterval(ambientBloom, 1500);
+    setInterval(spawnFallingPetal, 900);
+    setInterval(spawnFirefly, 1500);
+    setInterval(spawnButterfly, 4500);
+    setInterval(cycleQuote, 6500);
+
+    cycleQuote();
+    requestAnimationFrame(mouseInfluenceLoop);
+  }
+
+  function ambientBloom() {
+    if (flowers.length >= MAX_FLOWERS) return;
+    spawnFlower(
+      Math.random() * window.innerWidth,
+      window.innerHeight * 0.68 + Math.random() * window.innerHeight * 0.3
+    );
+  }
+
+  /* ---------- 4. REAL FLOWERS: sunflower, rose, tulip, lily ----------
+     Each is built as an inline SVG — stem, leaf and bloom together —
+     anchored at (x, y) as the ground point, growing upward from there. */
+  const FLOWER_TYPES = ['sunflower', 'rose', 'tulip', 'lily'];
+
+  function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function sunflowerSVG(uid){
+    const petalCount = 15;
+    let petals = '';
+    for (let i = 0; i < petalCount; i++){
+      const angle = (360 / petalCount) * i;
+      petals += `<ellipse cx="30" cy="19" rx="6.2" ry="17" fill="url(#sfP${uid})" transform="rotate(${angle} 30 40)"/>`;
+    }
+    let seeds = '';
+    for (let i = 0; i < 40; i++){
+      const a = i * 137.5 * Math.PI / 180;
+      const r = 1.55 * Math.sqrt(i);
+      const cx = 30 + r * Math.cos(a);
+      const cy = 40 + r * Math.sin(a);
+      if (Math.hypot(cx - 30, cy - 40) < 11.5) {
+        seeds += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="0.85" fill="#5A3B22"/>`;
+      }
+    }
+    return `<svg viewBox="0 0 60 190" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="sfP${uid}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#F5A623"/>
+        </linearGradient>
+        <linearGradient id="sfSt${uid}" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7CB88F"/><stop offset="100%" stop-color="#4C7A52"/>
+        </linearGradient>
+        <radialGradient id="sfC${uid}" cx="35%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#8B5A2B"/><stop offset="100%" stop-color="#5A3B22"/>
+        </radialGradient>
+      </defs>
+      <path d="M30,188 C26,150 34,110 29,70" stroke="url(#sfSt${uid})" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      <path d="M30,130 C44,124 54,133 49,146 C37,149 26,141 30,130 Z" fill="url(#sfSt${uid})"/>
+      <path d="M29,90 C15,86 6,95 11,108 C21,111 32,102 29,90 Z" fill="url(#sfSt${uid})"/>
+      <g>${petals}</g>
+      <circle cx="30" cy="40" r="12" fill="url(#sfC${uid})"/>
+      ${seeds}
+    </svg>`;
+  }
+
+  function roseSVG(uid){
+    const c = pick(ROSE_PALETTES);
+    const petalPath = (s) => `M30,40 C${30-s},${40-s*1.55} ${30-s},${40-s*2.6} 30,${(40-s*3).toFixed(1)} C${30+s},${(40-s*2.6).toFixed(1)} ${30+s},${(40-s*1.55).toFixed(1)} 30,40 Z`;
+    const layers = [
+      { count:6, size:11, rot:0,  fill:`url(#rOut${uid})` },
+      { count:5, size:7.6, rot:28, fill:`url(#rMid${uid})` },
+      { count:4, size:4.6, rot:14, fill:`url(#rIn${uid})` }
+    ];
+    let blooms = '';
+    layers.forEach(layer => {
+      for (let i = 0; i < layer.count; i++){
+        const angle = (360 / layer.count) * i + layer.rot;
+        blooms += `<path d="${petalPath(layer.size)}" fill="${layer.fill}" opacity="0.96" transform="rotate(${angle} 30 40)"/>`;
+      }
+    });
+    return `<svg viewBox="0 0 60 190" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="rSt${uid}" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7CB88F"/><stop offset="100%" stop-color="#4C7A52"/>
+        </linearGradient>
+        <radialGradient id="rOut${uid}" cx="50%" cy="80%" r="70%">
+          <stop offset="0%" stop-color="${c.mid}"/><stop offset="100%" stop-color="${c.outer}"/>
+        </radialGradient>
+        <radialGradient id="rMid${uid}" cx="50%" cy="80%" r="70%">
+          <stop offset="0%" stop-color="${c.inner}"/><stop offset="100%" stop-color="${c.mid}"/>
+        </radialGradient>
+        <radialGradient id="rIn${uid}" cx="50%" cy="80%" r="70%">
+          <stop offset="0%" stop-color="#7A0F28"/><stop offset="100%" stop-color="${c.inner}"/>
+        </radialGradient>
+      </defs>
+      <path d="M30,188 C33,150 26,112 30,72" stroke="url(#rSt${uid})" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M30,124 C17,120 8,129 13,141 C24,144 33,135 30,124 Z" fill="url(#rSt${uid})"/>
+      <path d="M30,150 C43,146 52,155 47,166 C36,168 27,160 30,150 Z" fill="url(#rSt${uid})"/>
+      ${blooms}
+    </svg>`;
+  }
+
+  function tulipSVG(uid){
+    const c = pick(TULIP_PALETTES);
+    const petal = (rot) => `<path d="M30,58 C17,52 14,26 24,15 C27,10 33,10 36,15 C46,26 43,52 30,58 Z" fill="url(#tP${uid})" transform="rotate(${rot} 30 45)" opacity="0.95"/>`;
+    return `<svg viewBox="0 0 60 190" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="tSt${uid}" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8FC98F"/><stop offset="100%" stop-color="#4C7A52"/>
+        </linearGradient>
+        <linearGradient id="tP${uid}" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="${c.dark}"/><stop offset="100%" stop-color="${c.light}"/>
+        </linearGradient>
+      </defs>
+      <path d="M30,188 C25,148 35,108 30,60" stroke="url(#tSt${uid})" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M30,120 C15,116 5,126 11,140 C23,142 33,132 30,120 Z" fill="url(#tSt${uid})"/>
+      ${petal(-22)}${petal(22)}${petal(0)}
+    </svg>`;
+  }
+
+  function lilySVG(uid){
+    const c = pick(LILY_PALETTES);
+    let petals = '';
+    for (let i = 0; i < 6; i++){
+      const angle = 60 * i;
+      petals += `<path d="M30,40 C25,26 26,8 30,0 C34,8 35,26 30,40 Z" fill="url(#lP${uid})" transform="rotate(${angle} 30 40)"/>`;
+      petals += `<ellipse cx="30" cy="20" rx="1.6" ry="3.4" fill="${c.speckle}" opacity="0.55" transform="rotate(${angle} 30 40)"/>`;
+    }
+    let stamens = '';
+    for (let i = 0; i < 6; i++){
+      const angle = 60 * i + 30;
+      stamens += `<g transform="rotate(${angle} 30 40)"><line x1="30" y1="40" x2="30" y2="18" stroke="#C98A4B" stroke-width="0.8"/><ellipse cx="30" cy="17" rx="1.6" ry="2.6" fill="#8C5A2B"/></g>`;
+    }
+    return `<svg viewBox="0 0 60 190" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="lSt${uid}" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8FC9A8"/><stop offset="100%" stop-color="#4C7A66"/>
+        </linearGradient>
+        <linearGradient id="lP${uid}" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="${c.speckle}" stop-opacity="0.25"/>
+          <stop offset="35%" stop-color="${c.petal}"/>
+          <stop offset="100%" stop-color="${c.tip}"/>
+        </linearGradient>
+      </defs>
+      <path d="M30,188 C34,148 24,110 30,64" stroke="url(#lSt${uid})" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M30,128 C44,124 53,133 48,145 C37,147 27,138 30,128 Z" fill="url(#lSt${uid})"/>
+      <g>${petals}</g>
+      <g>${stamens}</g>
+    </svg>`;
+  }
+
+  function renderFlower(type, uid){
+    switch(type){
+      case 'sunflower': return sunflowerSVG(uid);
+      case 'rose': return roseSVG(uid);
+      case 'tulip': return tulipSVG(uid);
+      case 'lily': return lilySVG(uid);
+    }
+  }
+
+  function spawnFlower(x, y) {
+    const type = pick(FLOWER_TYPES);
+    const uid = flowerUid++;
+    const el = document.createElement('div');
+    el.className = 'flower';
+
+    const scale = 0.8 + Math.random() * 0.5;
+    el.style.setProperty('--fw', Math.round(70 * scale) + 'px');
+    el.style.setProperty('--fh', Math.round(190 * scale) + 'px');
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.innerHTML = renderFlower(type, uid);
+
+    flowerField.appendChild(el);
+
+    const record = {
+      el, x, y,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.35 + Math.random() * 0.3,
+      grown: false
+    };
+    flowers.push(record);
+
+    // once the "grow up" animation finishes, release it and hand the
+    // transform over to the idle sway / mouse-tilt loop below (an
+    // active "forwards" animation would otherwise keep out-ranking
+    // any transform we set from JS)
+    el.addEventListener('animationend', () => {
+      el.style.animation = 'none';
+      el.style.opacity = '1';
+      el.style.transform = 'translate(-50%,-100%)';
+      record.grown = true;
+    }, { once: true });
+
+    if (flowers.length > MAX_FLOWERS) {
+      const old = flowers.shift();
+      old.el.style.transition = 'opacity 1s ease, transform 1s ease';
+      old.el.style.opacity = '0';
+      old.el.style.transform = 'translate(-50%,-100%) scaleY(0.7)';
+      setTimeout(() => old.el.remove(), 1000);
+    }
+  }
+
+  /* touch + click + pen, unified via Pointer Events, with manual
+     double-tap detection so it works reliably on mobile too */
+  let lastTap = { time: 0, x: 0, y: 0 };
+  let tapTimer = null;
+  flowerField.addEventListener('pointerdown', (e) => {
+    const now = Date.now();
+    const isDouble = (now - lastTap.time < 350) && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 40;
+
+    if (isDouble) {
+      clearTimeout(tapTimer);
+      spawnHearts(e.clientX, e.clientY);
+      lastTap.time = 0;
+    } else {
+      lastTap = { time: now, x: e.clientX, y: e.clientY };
+      tapTimer = setTimeout(() => spawnFlower(e.clientX, e.clientY), 260);
+    }
+  });
+
+  /* gentle idle sway + mouse-tilt, applied entirely in JS so it never
+     fights the one-shot "grow up" CSS animation */
+  let mouseX = -1000, mouseY = -1000;
+  window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
+  }, { passive: true });
+
+  function mouseInfluenceLoop() {
+    const now = performance.now() / 1000;
+    const radius = 160;
+    for (const f of flowers) {
+      if (!f.grown) continue;
+      const baseSway = Math.sin(now * f.speed + f.phase) * 2.2;
+
+      const dx = f.x - mouseX;
+      const dy = f.y - mouseY;
+      const dist = Math.hypot(dx, dy);
+      let mouseTilt = 0;
+      if (dist < radius) {
+        const strength = 1 - dist / radius;
+        mouseTilt = Math.sign(dx || 1) * strength * 13;
+      }
+      f.el.style.transform = `translate(-50%,-100%) rotate(${(baseSway + mouseTilt).toFixed(2)}deg)`;
+    }
+    requestAnimationFrame(mouseInfluenceLoop);
+  }
+
+  /* ---------- 5. FALLING PETALS ---------- */
+  function spawnFallingPetal() {
+    const el = document.createElement('div');
+    el.className = 'falling-petal';
+    const color = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
+    el.style.setProperty('--petal-color', color);
+    el.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
+    el.style.left = Math.random() * window.innerWidth + 'px';
+    const duration = 8 + Math.random() * 6;
+    el.style.animationDuration = duration + 's';
+    petalLayer.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
+  }
+
+  /* ---------- 6. FIREFLIES ---------- */
+  function spawnFirefly() {
+    if (fireflyLayer.childElementCount >= MAX_FIREFLIES) return;
+    const el = document.createElement('div');
+    el.className = 'firefly';
+    el.style.left = Math.random() * window.innerWidth + 'px';
+    el.style.top = (window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.6) + 'px';
+    el.style.animationDelay = (Math.random() * 3) + 's';
+    fireflyLayer.appendChild(el);
+    setTimeout(() => el.remove(), 16000);
+  }
+
+  /* ---------- 7. BUTTERFLIES ---------- */
+  function spawnButterfly() {
+    if (butterflyLayer.childElementCount >= MAX_BUTTERFLIES) return;
+    const el = document.createElement('div');
+    el.className = 'butterfly';
+    const wingColor = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
+    el.style.setProperty('--wing-color', wingColor);
+    el.innerHTML = `<div class="wing left"></div><div class="wing right"></div>`;
+
+    let x = -30;
+    let y = window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.4;
+    const speed = 1.1 + Math.random() * 1.3;
+    const amplitude = 30 + Math.random() * 40;
+    const start = Date.now();
+
+    butterflyLayer.appendChild(el);
+
+    function fly() {
+      const t = (Date.now() - start) / 1000;
+      x += speed;
+      const yy = y + Math.sin(t * 2) * amplitude;
+      el.style.left = x + 'px';
+      el.style.top = yy + 'px';
+      if (x < window.innerWidth + 40) {
+        requestAnimationFrame(fly);
+      } else {
+        el.remove();
+      }
+    }
+    requestAnimationFrame(fly);
+  }
+
+  /* ---------- 8. HEARTS ON DOUBLE-CLICK ---------- */
+  function spawnHearts(x, y) {
+    const count = 5;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.style.left = (x + (Math.random() * 30 - 15)) + 'px';
+      el.style.top = (y + (Math.random() * 20 - 10)) + 'px';
+      el.style.animationDelay = (i * 0.08) + 's';
+      heartLayer.appendChild(el);
+      setTimeout(() => el.remove(), 2600);
+    }
+  }
+
+  /* ---------- 9. POETIC QUOTES ---------- */
+  let quoteIndex = -1;
+  function cycleQuote() {
+    let next = Math.floor(Math.random() * HINDI_QUOTES.length);
+    if (next === quoteIndex) next = (next + 1) % HINDI_QUOTES.length;
+    quoteIndex = next;
+
+    quoteDisplay.classList.remove('show');
+    setTimeout(() => {
+      quoteDisplay.textContent = HINDI_QUOTES[quoteIndex];
+      quoteDisplay.classList.add('show');
+    }, 500);
+  }
+
+  /* ---------- 10. DAY / NIGHT TOGGLE ---------- */
+  daynightToggle.addEventListener('click', () => {
+    isNight = !isNight;
+    document.body.classList.toggle('night', isNight);
+    daynightToggle.querySelector('.icon').textContent = isNight ? '☀️' : '🌙';
+  });
+
+  /* ---------- 11. AMBIENT AUDIO (Web Audio API, no external files) ---------- */
+  let audioCtx = null;
+  let audioNodes = [];
+  let isMuted = true;
+
+  function initAudio() {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0; // start muted
+    masterGain.connect(audioCtx.destination);
+
+    // soft pad: three detuned sine oscillators forming a gentle chord
+    const freqs = [196.0, 246.94, 293.66]; // G3, B3, D4 — a soft major chord
+    freqs.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const gain = audioCtx.createGain();
+      gain.gain.value = 0.18 / freqs.length;
+
+      // slow amplitude drift for a "breathing" ambient feel
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.value = 0.05 + i * 0.02;
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.value = 0.05;
+      lfo.connect(lfoGain);
+      lfoGain.connect(gain.gain);
+
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start();
+      lfo.start();
+      audioNodes.push(osc, lfo);
+    });
+
+    audioNodes.masterGain = masterGain;
+    audioCtx._masterGain = masterGain;
+  }
+
+  muteToggle.addEventListener('click', () => {
+    initAudio();
+    isMuted = !isMuted;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const target = isMuted ? 0 : 1;
+    audioCtx._masterGain.gain.linearRampToValueAtTime(target, audioCtx.currentTime + 1.2);
+    muteToggle.querySelector('.icon').textContent = isMuted ? '🔈' : '🔊';
+  });
+
+  /* ---------- 12. HIDDEN EASTER EGG ---------- */
+  let titleClicks = 0;
+  gardenTitle.addEventListener('click', () => {
+    titleClicks++;
+    if (titleClicks >= 7) {
+      titleClicks = 0;
+      easterEgg.classList.remove('hidden');
+    }
+  });
+  eggClose.addEventListener('click', () => easterEgg.classList.add('hidden'));
+
+  /* also: typing "iloveyou" anywhere reveals the same secret */
+  let typedBuffer = '';
+  window.addEventListener('keydown', (e) => {
+    if (e.key.length === 1) {
+      typedBuffer = (typedBuffer + e.key).slice(-8).toLowerCase();
+      if (typedBuffer === 'iloveyou') {
+        easterEgg.classList.remove('hidden');
+      }
+    }
+  });
+
+  /* ---------- 13. RESPONSIVE: keep flower positions sane on resize ---------- */
+  window.addEventListener('resize', () => {
+    // no-op layout recalculation needed since flowers use fixed px positions;
+    // future flowers spawn relative to the new viewport automatically.
+  });
+
+})();
+
+</script>
+</body>
+</html>
